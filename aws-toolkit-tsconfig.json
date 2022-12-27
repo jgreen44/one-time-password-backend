@@ -1,0 +1,13 @@
+{
+  "compilerOptions" : {
+    "alwaysStrict" : true,
+    "module" : "commonjs",
+    "noImplicitAny" : true,
+    "target" : "es2019",
+    "outDir" : "/Users/jasongreen/Documents/IntelliJProjects/one-time-password-backend/aws-toolkit-ts-output",
+    "rootDir" : ".",
+    "sourceRoot" : "/Users/jasongreen/Documents/IntelliJProjects/one-time-password-backend",
+    "typeRoots" : [ "/Users/jasongreen/Documents/IntelliJProjects/one-time-password-backend/node_modules/@types" ],
+    "types" : [ "node" ]
+  }
+}

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hello handler should say hello 1`] = `
+Object {
+  "email": "test@test.com",
+  "otp": "123",
+}
+`;

@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  one-time-password
+
+  SAM Template for one-time-password
+
+
+Globals:
+  Api:
+    Auth:
+      Authorizers: null
+    Cors:
+      AllowOrigin: "'*'"
+      AllowHeaders: "'Origin, X-Requested-With, Content-Type, Accept, Authorization'"
+      AllowMethods: "'POST,GET,OPTIONS'"
+  Function:
+    Runtime: nodejs16.x
+    Timeout: 300
+
+Resources:
+  CreateOTPFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/create-otp
+      Handler: create-otp.handler
+      Policies:
+        AmazonDynamoDBFullAccess
+      Events:
+        CreateOTP:
+          Type: Api
+          Properties:
+            Path: /create-otp
+            Method: post
+        CreateOTPCors:
+          Type: Api
+          Properties:
+            Path: /create-otp
+            Method: options
+            Auth:
+              Authorizer: null
+
+  GetOTPFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/get-otp
+      Handler: get-otp.handler
+      Events:
+        GetOTP:
+          Type: Api
+          Properties:
+            Path: /get-otp
+            Method: post
+        GetOTPCors:
+          Type: Api
+          Properties:
+            Path: /get-otp
+            Method: options
+            Auth:
+              Authorizer: null
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Hello function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/'
+  GoodbyeApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Goodbye function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/goodbye/'
