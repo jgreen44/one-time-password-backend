@@ -3,12 +3,12 @@ import { ddbClient } from '../libs/dynamo-db-client';
 
 import { httpResponse } from '../libs/returnHelper';
 
-import { EventBodyType, IhttpResponse, TABLE_NAME } from '../util/types';
+import { IhttpResponse, TABLE_NAME } from '../util/types';
 import { createDynamoDBTable } from '../libs/dynamo-db-create-table';
 import { runSendOTPEmail } from '../util/send-email';
 
 export const handler = async (event: IhttpResponse): Promise<IhttpResponse> => {
-  const eventBody = JSON.parse(event.body) as EventBodyType;
+  const eventBody = JSON.parse(event.body);
 
   const timestamp = new Date().getTime().toString();
 
@@ -41,7 +41,11 @@ export const handler = async (event: IhttpResponse): Promise<IhttpResponse> => {
   };
 
   // create DynamoDB table.
-  await createDynamoDBTable();
+  try {
+    await createDynamoDBTable();
+  } catch (err) {
+    return httpResponse(`error creating dynamoDB ${err}`, 400);
+  }
 
   // check if email already exists in db
   const item = await ddbClient.send(new GetItemCommand(getItemParams));
@@ -70,5 +74,13 @@ export const handler = async (event: IhttpResponse): Promise<IhttpResponse> => {
     return httpResponse(`Email not sent ${err}`, 400);
   }
 
-  return httpResponse('Your email has been sent', 200);
+  return httpResponse(
+    `Your email has been sent.
+    EventBody:${JSON.stringify(eventBody)}
+     Timestamp: ${timestamp}
+     PutItemParams: ${putItemParams}
+     GetItemParams: ${getItemParams}
+     UpdateItemParams: ${updateItemParams}`,
+    200,
+  );
 };

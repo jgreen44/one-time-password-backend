@@ -37,8 +37,6 @@ const GlobalFunction = Globals?.Function ?? {};
 // Where my function source lives
 const handlerPath = './src/handlers';
 
-// @ts-ignore
-
 const entries = Object.values(Resources)
   // Take only the Lambda function resources
   .filter((resource: ISamFunction) => resource.Type === 'AWS::Serverless::Function')

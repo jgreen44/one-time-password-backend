@@ -32,6 +32,6 @@ export const createDynamoDBTable = async (): Promise<IhttpResponse> => {
     await ddbClient.send(new CreateTableCommand(params));
     return httpResponse('table created in database', 200);
   } catch (err) {
-    return httpResponse(err as string, 400);
+    return httpResponse(`create dynamoDB error ${err}`, 400);
   }
 };

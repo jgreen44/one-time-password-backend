@@ -4,11 +4,7 @@ import { sesClient } from '../libs/ses-client';
 import { FROM_EMAIL, SOURCE_ARN } from './types';
 import { httpResponse } from '../libs/returnHelper';
 
-export const createSendEmailCommand = (
-  toAddress: string,
-  fromAddress: string,
-  otp: string,
-) => {
+export const createSendEmailCommand = (toAddress: string, fromAddress: string, otp: string) => {
   return new SendEmailCommand({
     Destination: {
       ToAddresses: [toAddress],
