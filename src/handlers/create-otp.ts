@@ -74,13 +74,5 @@ export const handler = async (event: IhttpResponse): Promise<IhttpResponse> => {
     return httpResponse(`Email not sent ${err}`, 400);
   }
 
-  return httpResponse(
-    `Your email has been sent.
-    EventBody:${JSON.stringify(eventBody)}
-     Timestamp: ${timestamp}
-     PutItemParams: ${putItemParams}
-     GetItemParams: ${getItemParams}
-     UpdateItemParams: ${updateItemParams}`,
-    200,
-  );
+  return httpResponse(`Your email has been sent`, 200);
 };
